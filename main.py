@@ -1,8 +1,10 @@
+from itertools import cycle
+
 class Game:
     def __init__(self, players):
         self.players = players
         self.community_pot = 0
-#        self.history = []
+#        self.history = [] 
 
     def pay_community_pot(self, player, amount):
         player.money -= amount
@@ -14,13 +16,70 @@ class Game:
         print(f'{player.name} earned ${self.community_pot} from the community pot.')
         self.community_pot = 0
 
+    def menu(self, player):
+        print()
+        for player in self.players:
+            print(f'{player.name} - ${player.money}', end='\t')
+        print(f'\n{"=" * 75}')
+        print(f'Current turn: {player.name} - ${player.money}\n')
+        print(
+            "Choose an action:\n"
+            "(P) Pay...\n"
+            "(C) Collect money\n"
+            "(E) End turn\n"
+        )
+        action = input('> ').lower()
+        if action == 'p':
+            self.pay_menu(player)
+        elif action == 'c':
+            pass
+        elif action == 'e':
+            pass
+
+    def pay_menu(self, player):
+        print(f'\n{"=" * 25}')
+        amount = None
+        while not amount:
+            try:
+                amount = int(input('How much?\n> '))
+            except ValueError:
+                print('Must select a numerical value')
+        print('Choose who to pay:\n')
+        print(
+            "(P) Pay Player\n"
+            "(B) Pay Bank\n"
+            "(C) Pay Community Pot\n"
+            "(E) Pay Everyone"
+        )
+        pay_action = input('> ').lower()
+        if pay_action == 'b':
+            player.pay_bank(amount)
+        elif pay_action == 'c':
+            self.pay_community_pot(player, amount)
+        elif pay_action == 'p':
+            selected_player = self.select_user_menu(player)
+            player.pay_player(selected_player, amount)
+        elif pay_action == 'e':
+            player.pay_all_players(self.players, amount)
+
+    def select_user_menu(self, player):
+        print(f'\n{"=" * 25}')
+        print('Select a player:\n')
+        for other_player in self.players:
+            if other_player != player:
+                print(other_player.name)
+        selected_name = input('> ').lower()
+        selected_player = [player for player in game.players
+                            if player.name.lower() == selected_name][0]
+        return selected_player
+        
 
 class Player:
     """Player class, handles state regarding money, name, and properties."""
     def __init__(self, name):
         self.name = name
         self.money = 1500
-#        self.properties = []
+        self.is_bankrupt = False
 
     def pay_player(self, player, amount):
         self.money -= amount
@@ -39,29 +98,15 @@ class Player:
         for player in players:
             player.pay_player(self, amount)
 
+    def pay_all_players(self, players, amount):
+        for player in players:
+            self.pay_player(player, amount)
 
-p1 = Player('Steve')
-p2 = Player('Dave')
-p3 = Player('Kathy')
+
+#if __name__ == '__main__':
+p1 = Player('Rick')
+p2 = Player('Jim')
+p3 = Player('Dave')
 game = Game([p1, p2, p3])
-
-p1.pay_player(p2, 100)
-print(p1.name, p1.money)
-print(p2.name, p2.money)
-
-print()
-p1.pay_bank(100)
-print(p1.name, p1.money)
-
-print()
-p1.receive_money(100)
-print(p1.name, p1.money)
-
-print()
-p1.receive_from_players([p2, p3], 30)
-print(p1.name, p1.money)
-print(p2.name, p2.money)
-
-print()
-game.pay_community_pot(p3, 50)
-game.get_community_pot(p1)
+for i in game.players:
+    game.menu(i)
