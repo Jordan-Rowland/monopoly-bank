@@ -12,8 +12,8 @@ class Menu:
     
     def menu(self, player):
         """Displays the top-level menu beginning each players turn."""
+        print()
         while True:
-            print()
             if player.is_bankrupt:
                 return
             sleep(1)
@@ -40,7 +40,7 @@ class Menu:
                 self.collect_menu(player)
                 print()
             elif action == 'g':
-                player.receive_from_bank(200)
+                player.receive(amount=200)
             elif action == 'e':
                 break
 
@@ -65,13 +65,14 @@ class Menu:
             except ValueError:
                 print('Must select a numerical value')
         if selected_player:
-            player.pay_player(selected_player, amount)
+            player.pay(amount=amount, players=selected_player)
         elif pay_action == 'b':
-            player.pay_bank(amount)
+            player.pay(amount=amount)
         elif pay_action == 'c':
             self.game.pay_community_pot(player, amount)
         elif pay_action == 'e':
-            player.pay_all_players(self.game.players, amount)
+            players = list(filter(lambda x: x != player, self.game.players))
+            player.pay(amount=amount, players=players)
 
     def collect_menu(self, player):
         """Access this to determine from who the current player will collect money
@@ -94,9 +95,9 @@ class Menu:
             except ValueError:
                 print('Must select a numerical value')
         if collect_action == 'b':
-            player.receive_from_bank(amount)
+            player.receive(amount=amount)
         elif collect_action == 'e':
-            player.receive_from_players(self.game.players, amount)
+            player.receive(self.game.players, amount=amount)
 
     def select_user_menu(self, player):
         """Returns the Player object of the player whose name is typed in."""
@@ -109,8 +110,9 @@ class Menu:
                     if other_player != player:
                         print(other_player.name)
                 selected_name = input('> ').lower()
-                selected_player = [player for player in self.game.players
-                                   if player.name.lower() == selected_name][0]
+                selected_player = next(
+                        filter(lambda x: x.name.lower() == selected_name, self.game.players)
+                        )
             except IndexError:
                 print()
                 print('Could not find user.')

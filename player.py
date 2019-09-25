@@ -10,53 +10,35 @@ class Player:
         self.money = money
         self.is_bankrupt = False
 
-    def pay_bank(self, amount):
-        """Handles basic transactions to the bank."""
+    def pay(self, amount, players=None):
+        """Handles money playment. If no players are provided, payment is made to 'the bank'."""
         if self.is_bankrupt:
             return
-        if self.money > amount:
+        if self.money < amount:
+            print()
+            print(
+                f"{self.name} does not have enough money for this transaction.\n"
+                "Please sell some assets, or declare bankruptcy"
+            )
+            self.bankrupt()
+            return
+        if players:
+            for player in players:
+                self.money -= amount
+                player.money += amount
+                print(f'{self.name} paid {player.name} ${amount}.')
+        else:
             self.money -= amount
             print(f'{self.name} paid the bank ${amount}.')
+
+    def receive(self, amount, players=None):
+        """Handles receiving money. If no players are provided, payment is from 'the bank'."""
+        if players:
+            for player in players:
+                player.pay(self, amount=amount)
         else:
-            print()
-            print(
-                f"{self.name} does not have enough money for this transaction.\n"
-                "Please sell some assets, or declare bankruptcy"
-            )
-            sleep(1)
-            self.bankrupt()
-
-    def pay_player(self, player, amount):
-        """Handles paying other players for rent, etc."""
-        if self.is_bankrupt:
-            return
-        if self.money > amount:
-            self.money -= amount
-            player.money += amount
-            print(f'{self.name} paid {player.name} ${amount}.')
-        else:
-            print()
-            print(
-                f"{self.name} does not have enough money for this transaction.\n"
-                "Please sell some assets, or declare bankruptcy"
-            )
-            sleep(1)
-            self.bankrupt()
-
-    def receive_from_bank(self, amount):
-        """Handles receiving money from community chest cards, etc."""
-        self.money += amount
-        print(f'{self.name} received ${amount}.')
-
-    def receive_from_players(self, players, amount):
-        """Handles payment from all other players from community chest cards, etc."""
-        for player in players:
-            player.pay_player(self, amount)
-
-    def pay_all_players(self, players, amount):
-        """Handles paying all players from chance cards, etc."""
-        for player in players:
-            self.pay_player(player, amount)
+            self.money += amount
+            print(f'{self.name} received ${amount}.')
 
     def bankrupt(self):
         print('Would you like to declare bankruptcy? Yes or No')
@@ -69,3 +51,4 @@ class Player:
                 self.is_bankrupt = True
                 print("Congratulations! You're bankrupt!")
                 sleep(1)
+
