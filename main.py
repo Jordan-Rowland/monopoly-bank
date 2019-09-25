@@ -57,6 +57,9 @@ class Menu:
             "(E) Pay Everyone\n"
         )
         pay_action = input('> ').lower()
+        if pay_action not in ['p', 'b', 'c', 'e',]:
+            print(f'({pay_action.upper()}) is not a value option.')
+            return
         if pay_action == 'p':
             selected_player = self.select_user_menu(player)
         while amount < 0:
@@ -73,8 +76,6 @@ class Menu:
         elif pay_action == 'e':
             players = list(filter(lambda x: x != player, self.game.players))
             player.pay(amount, players)
-        else:
-            print('Please select a valid option, (P), (B), (C), or (E)')
 
 
     def collect_menu(self, player):
@@ -89,6 +90,9 @@ class Menu:
             "(E) Everyone\n"
         )
         collect_action = input('> ').lower()
+        if collect_action not in ['c', 'b', 'e',]:
+            print(f'({collect_action.upper()}) is not a value option.')
+            return
         if collect_action == 'c':
             amount = self.game.community_pot
             self.game.get_community_pot(player)
@@ -102,8 +106,6 @@ class Menu:
         elif collect_action == 'e':
             players = list(filter(lambda x: x != player, self.game.players))
             player.collect(amount, players)
-        else:
-            print('Please select a valid option, (C), (B), or (E)')
 
     def select_user_menu(self, player):
         """Returns the Player object of the player whose name is typed in."""
