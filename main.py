@@ -22,8 +22,8 @@ class Menu:
                 print(f'{iplayer.name} - ${iplayer.money}', end='\t')
             print(f'\n{"=" * 75}')
             print(f'Current turn: {player.name} - ${player.money}\n')
+            print("Choose an action:\n")
             print(
-                "Choose an action:\n"
                 "(R) Roll\n"
                 "(P) Pay...\n"
                 "(C) Collect money\n"
@@ -40,7 +40,7 @@ class Menu:
                 self.collect_menu(player)
                 print()
             elif action == 'g':
-                player.receive(amount=200)
+                player.collect(amount=200)
             elif action == 'e':
                 break
 
@@ -65,14 +65,17 @@ class Menu:
             except ValueError:
                 print('Must select a numerical value')
         if selected_player:
-            player.pay(amount=amount, players=selected_player)
+            player.pay(amount, selected_player)
         elif pay_action == 'b':
-            player.pay(amount=amount)
+            player.pay(amount)
         elif pay_action == 'c':
             self.game.pay_community_pot(player, amount)
         elif pay_action == 'e':
             players = list(filter(lambda x: x != player, self.game.players))
-            player.pay(amount=amount, players=players)
+            player.pay(amount, players)
+        else:
+            print('Please select a valid option, (P), (B), (C), or (E)')
+
 
     def collect_menu(self, player):
         """Access this to determine from who the current player will collect money
@@ -95,9 +98,12 @@ class Menu:
             except ValueError:
                 print('Must select a numerical value')
         if collect_action == 'b':
-            player.receive(amount=amount)
+            player.collect(amount)
         elif collect_action == 'e':
-            player.receive(self.game.players, amount=amount)
+            players = list(filter(lambda x: x != player, self.game.players))
+            player.collect(amount, players)
+        else:
+            print('Please select a valid option, (C), (B), or (E)')
 
     def select_user_menu(self, player):
         """Returns the Player object of the player whose name is typed in."""
@@ -113,19 +119,24 @@ class Menu:
                 selected_player = next(
                         filter(lambda x: x.name.lower() == selected_name, self.game.players)
                         )
-            except IndexError:
+            except StopIteration:
                 print()
                 print('Could not find user.')
                 sleep(1)
         return selected_player
 
 
-if __name__ == '__main__':
+def main():
     P1 = Player('Rick')
     P2 = Player('Jim')
     P3 = Player('Dave')
-    GAME = Game(P1, P2, P3)
+    PLAYERS = P1, P2, P3
+    GAME = Game(PLAYERS)
     MENU = Menu(GAME)
     for game_player in cycle(MENU.game.players):
         if not game_player.is_bankrupt:
             MENU.menu(game_player)
+
+
+if __name__ == '__main__':
+    main()

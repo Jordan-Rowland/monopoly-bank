@@ -23,6 +23,8 @@ class Player:
             self.bankrupt()
             return
         if players:
+            if type(players) != list:
+                players = [players]
             for player in players:
                 self.money -= amount
                 player.money += amount
@@ -31,11 +33,11 @@ class Player:
             self.money -= amount
             print(f'{self.name} paid the bank ${amount}.')
 
-    def receive(self, amount, players=None):
+    def collect(self, amount, players=None):
         """Handles receiving money. If no players are provided, payment is from 'the bank'."""
         if players:
             for player in players:
-                player.pay(self, amount=amount)
+                player.pay(amount, self)
         else:
             self.money += amount
             print(f'{self.name} received ${amount}.')

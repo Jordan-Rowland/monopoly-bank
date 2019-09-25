@@ -5,7 +5,7 @@ from random import choice
 
 class Game:
     """Retains main game state and displays UI menu."""
-    def __init__(self, *players):
+    def __init__(self, players):
         self.players = players
         self.community_pot = 0
 
