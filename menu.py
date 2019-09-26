@@ -3,16 +3,17 @@
 from time import sleep
 
 class Menu:
+    """Menu for interacting with objects."""
     def __init__(self, game):
         self.game = game
-    
+
     def menu(self, player):
         """Displays the top-level menu beginning each players turn."""
         print()
         while True:
             if player.is_bankrupt:
                 return
-            sleep(1)
+            sleep(.8)
             print(f'Community pot - ${self.game.community_pot}')
             for iplayer in self.game.players:
                 print(f'{iplayer.name} - ${iplayer.money}', end='\t')
@@ -115,11 +116,9 @@ class Menu:
                         print(other_player.name)
                 selected_name = input('> ').lower()
                 selected_player = next(
-                        filter(lambda x: x.name.lower() == selected_name, self.game.players)
-                        )
+                    filter(lambda x: x.name.lower() == selected_name, self.game.players))
             except StopIteration:
                 print()
                 print('Could not find user.')
-                sleep(1)
+                sleep(.8)
         return selected_player
-

@@ -5,9 +5,9 @@ from random import choice
 
 class Game:
     """Retains main game state and displays UI menu."""
-    def __init__(self, players):
+    def __init__(self, players, community_pot=0):
         self.players = players
-        self.community_pot = 0
+        self.community_pot = community_pot
 
     def pay_community_pot(self, player, amount):
         """Pays into community pot for payments not directly to the bank."""
@@ -24,7 +24,14 @@ class Game:
 
     def roll(self):
         """Roll dice for current player"""
-        dice = ['[*]','[**]','[***]','[****]','[*****]','[******]']
+        dice = [
+            '[*]',
+            '[**]',
+            '[***]',
+            '[****]',
+            '[*****]',
+            '[******]',
+        ]
         roll_one = choice(dice)
         roll_two = choice(dice)
         print(roll_one, '-', end=' ')

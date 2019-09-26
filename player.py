@@ -23,7 +23,7 @@ class Player:
             self.bankrupt()
             return
         if players:
-            if type(players) != list:
+            if not isinstance(players, list):
                 players = [players]
             for player in players:
                 self.money -= amount
@@ -43,6 +43,7 @@ class Player:
             print(f'{self.name} received ${amount}.')
 
     def bankrupt(self):
+        """Bankrupts a character with confirmation."""
         print('Would you like to declare bankruptcy? Yes or No')
         confirm = input('> ').lower()
         if confirm == 'yes':
@@ -53,4 +54,3 @@ class Player:
                 self.is_bankrupt = True
                 print("Congratulations! You're bankrupt!")
                 sleep(1)
-

@@ -8,16 +8,18 @@ from menu import Menu
 
 
 def main():
-    num_players = input('How many players?\n> ')
-    player_list = list()
+    """Asks how many players there are, and initializes the game. Runs the menu rotating through
+    the players"""
     while True:
         try:
-            for i in range(1, int(num_players) + 1):
-                name = input(f'Player {i} name\n> ')
-                player_list.append(Player(name))
+            num_players = int(input('How many players?\n> '))
             break
-        except TypeError:
+        except ValueError:
             print('Must be a valid number')
+    player_list = list()
+    for i in range(1, int(num_players) + 1):
+        name = input(f'Player {i} name\n> ')
+        player_list.append(Player(name))
 #    P1 = Player('Rick')
 #    P2 = Player('Jim')
 #    P3 = Player('Dave')
