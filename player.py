@@ -4,14 +4,22 @@ from time import sleep
 
 
 class Player:
-    """Player class, handles state regarding money, name, and properties."""
+    """Handles state regarding money, and name. If no money argument is provided, it will default
+    to 1500, the amount players start with in a typical game. Money can be provided to restore a
+    session if the program crashed. Provides methods for paying and collecting money, and
+    bankrupting players."""
+
     def __init__(self, name, money=1500):
         self.name = name
         self.money = money
         self.is_bankrupt = False
 
     def pay(self, amount, players=None):
-        """Handles money playment. If no players are provided, payment is made to 'the bank'."""
+        """Makes payments for things like properties or rent. Accepts an iterable of players for
+        the players argument, and loops through(this allows 'pay all' community cards). If no
+        players are provided, payment is made to 'the bank'. Aslo accepts an amount to be paid.
+        Does not allow payment if the amount is more than the plaers current money, and prompts to
+        bankrupt."""
         if self.is_bankrupt:
             return
         if self.money < amount:
@@ -28,28 +36,30 @@ class Player:
             for player in players:
                 self.money -= amount
                 player.money += amount
-                print(f'{self.name} paid {player.name} ${amount}.')
+                print(f"{self.name} paid {player.name} ${amount}.")
         else:
             self.money -= amount
-            print(f'{self.name} paid the bank ${amount}.')
+            print(f"{self.name} paid the bank ${amount}.")
 
     def collect(self, amount, players=None):
-        """Handles receiving money. If no players are provided, payment is from 'the bank'."""
+        """Receives money for things like rent, community cards, etc. Accepts an iterable as the
+        players argument to allow community cards that collect from all players. If no players are
+        provided, payment is from 'the bank'."""
         if players:
             for player in players:
                 player.pay(amount, self)
         else:
             self.money += amount
-            print(f'{self.name} received ${amount}.')
+            print(f"{self.name} received ${amount}.")
 
     def bankrupt(self):
         """Bankrupts a character with confirmation."""
-        print('Would you like to declare bankruptcy? Yes or No')
-        confirm = input('> ').lower()
-        if confirm == 'yes':
-            print('If you are sure, please type BANKRUPT. This action cannot be undone!')
-            verify = input('> ')
-            if verify == 'BANKRUPT':
+        print("Would you like to declare bankruptcy? Yes or No")
+        confirm = input("> ").lower()
+        if confirm == "yes":
+            print("If you are sure, please type BANKRUPT. This action cannot be undone!")
+            verify = input("> ")
+            if verify == "BANKRUPT":
                 self.money = 0
                 self.is_bankrupt = True
                 print("Congratulations! You're bankrupt!")
