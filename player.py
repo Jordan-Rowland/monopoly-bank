@@ -9,12 +9,12 @@ class Player:
     session if the program crashed. Provides methods for paying and collecting money, and
     bankrupting players."""
 
-    def __init__(self, name, money=1500):
+    def __init__(self, name: str, money: int = 1500):
         self.name = name
         self.money = money
         self.is_bankrupt = False
 
-    def pay(self, amount, players=None):
+    def pay(self, amount: int, players: list = None):
         """Makes payments for things like properties or rent. Accepts an iterable of players for
         the players argument, and loops through(this allows 'pay all' community cards). If no
         players are provided, payment is made to 'the bank'. Aslo accepts an amount to be paid.
@@ -41,7 +41,7 @@ class Player:
             self.money -= amount
             print(f"{self.name} paid the bank ${amount}.")
 
-    def collect(self, amount, players=None):
+    def collect(self, amount: int, players: list = None):
         """Receives money for things like rent, community cards, etc. Accepts an iterable as the
         players argument to allow community cards that collect from all players. If no players are
         provided, payment is from 'the bank'."""

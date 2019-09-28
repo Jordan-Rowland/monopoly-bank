@@ -2,6 +2,8 @@
 
 from time import sleep
 
+from player import Player
+
 
 class Menu:
     """Menu for interacting with players and game. Takes an initialized Game object as an
@@ -10,7 +12,7 @@ class Menu:
     def __init__(self, game):
         self.game = game
 
-    def menu(self, player):
+    def menu(self, player: Player):
         """Displays the top-level menu beginning each players turn."""
         print()
         while True:
@@ -44,7 +46,7 @@ class Menu:
             elif action == "e":
                 break
 
-    def pay_menu(self, player):
+    def pay_menu(self, player: Player):
         """Access this to determine who the current player will pay."""
         print(f'\n{"=" * 25}')
         amount = -1
@@ -72,7 +74,7 @@ class Menu:
             players = list(filter(lambda x: x != player, self.game.players))
             player.pay(amount, players)
 
-    def collect_menu(self, player):
+    def collect_menu(self, player: Player):
         """Access this to determine from who the current player will collect money
         from."""
         print(f'\n{"=" * 25}')
@@ -97,7 +99,7 @@ class Menu:
             players = list(filter(lambda x: x != player, self.game.players))
             player.collect(amount, players)
 
-    def select_user_menu(self, player):
+    def select_user_menu(self, player: Player):
         """Returns the Player object of the player whose name is typed in."""
         selected_player = None
         while not selected_player:

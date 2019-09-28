@@ -7,7 +7,7 @@ from game import Game
 from menu import Menu
 
 
-def main(game=None):
+def main(game: Game = None):
     """Accepts an argument which is an initialized Game instance. This is used to restore a game to
     it's previous state if the program crashed. If no argument is provided, it will ask how many
     players there are, and initialize all Players and the game instance, and then run the menu."""
