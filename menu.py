@@ -1,10 +1,11 @@
-"""Menu to control the flow of commands"""
+"""Menu to control the flow of the game."""
 
 from time import sleep
 
 
 class Menu:
-    """Menu for interacting with objects."""
+    """Menu for interacting with players and game. Takes an initialized Game object as an
+    argument(with initialized player objects) and begins the game."""
 
     def __init__(self, game):
         self.game = game

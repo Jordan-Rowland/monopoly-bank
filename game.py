@@ -4,7 +4,8 @@ from random import choice
 
 
 class Game:
-    """Retains main game state and displays UI menu."""
+    """Maintains game state. Accepts initialized Player objects for players of the current game.
+    Also accepts a community pot argument, but defaults this to 0."""
 
     def __init__(self, players, community_pot=0):
         self.players = players
