@@ -21,7 +21,7 @@ class Player:
         Does not allow payment if the amount is more than the plaers current money, and prompts to
         bankrupt."""
         if self.is_bankrupt:
-            return
+            return # Stops any payment if user is bankrupt
         if self.money < amount:
             print()
             print(

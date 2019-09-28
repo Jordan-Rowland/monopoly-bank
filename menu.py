@@ -2,6 +2,7 @@
 
 from time import sleep
 
+from game import Game
 from player import Player
 
 
@@ -9,7 +10,7 @@ class Menu:
     """Menu for interacting with players and game. Takes an initialized Game object as an
     argument(with initialized player objects) and begins the game."""
 
-    def __init__(self, game):
+    def __init__(self, game: Game):
         self.game = game
 
     def menu(self, player: Player):
@@ -21,7 +22,8 @@ class Menu:
             sleep(0.8)
             print(f"Community pot - ${self.game.community_pot}")
             for iplayer in self.game.players:
-                print(f"{iplayer.name} - ${iplayer.money}", end="\t")
+                if not iplayer.is_bankrupt:
+                    print(f"{iplayer.name} - ${iplayer.money}", end="\t")
             print(f'\n{"=" * 75}')
             print(f"Current turn: {player.name} - ${player.money}\n")
             print("Choose an action:\n")
