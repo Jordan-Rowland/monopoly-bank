@@ -23,6 +23,8 @@ def main(game: Game = None):
             name = input(f"Player {i} name\n> ")
             player_list.append(Player(name))
         GAME = Game(player_list)
+    else:
+        GAME = game
     MENU = Menu(GAME)
     for game_player in cycle(MENU.game.players):
         if not game_player.is_bankrupt:
