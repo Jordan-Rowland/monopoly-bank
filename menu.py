@@ -73,7 +73,7 @@ class Menu:
         elif pay_action == "c":
             self.game.pay_community_pot(player, amount)
         elif pay_action == "e":
-            players = list(filter(lambda x: x != player, self.game.players))
+            players = list(filter(lambda x: x is not player, self.game.players))
             player.pay(amount, players)
 
     def collect_menu(self, player: Player):
@@ -98,7 +98,7 @@ class Menu:
         if collect_action == "b":
             player.collect(amount)
         elif collect_action == "e":
-            players = list(filter(lambda x: x != player, self.game.players))
+            players = list(filter(lambda x: x is not player, self.game.players))
             player.collect(amount, players)
 
     def select_user_menu(self, player: Player):
@@ -109,7 +109,7 @@ class Menu:
                 print(f'\n{"=" * 25}')
                 print("Select a player:\n")
                 for other_player in self.game.players:
-                    if other_player != player:
+                    if other_player is not player:
                         print(other_player.name)
                 selected_name = input("> ").lower()
                 selected_player = next(
