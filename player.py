@@ -22,15 +22,14 @@ class Player:
         bankrupt."""
         if self.is_bankrupt:
             return # Stops any payment if user is bankrupt
-        if self.money < amount:
-            print()
-            print(
-                f"{self.name} does not have enough money for this transaction.\n"
-                "Please sell some assets, or declare bankruptcy"
-            )
-            self.bankrupt()
-            return
         if players:
+            if self.money < (amount * len(players)):
+                print(
+                    f"\n{self.name} does not have enough money for this transaction.\n"
+                    "Please sell some assets, or declare bankruptcy"
+                )
+                self.bankrupt()
+                return
             if not isinstance(players, list):
                 players = [players]
             for player in players:

@@ -19,7 +19,7 @@ def main(game: Game = None):
             except ValueError:
                 print("Must be a valid number")
         player_list = list()
-        for i in range(1, int(num_players) + 1):
+        for i in range(1, num_players + 1):
             name = input(f"Player {i} name\n> ")
             player_list.append(Player(name))
         GAME = Game(player_list)
