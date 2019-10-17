@@ -26,18 +26,18 @@ class Game:
         print(f"{player.name} earned ${self.community_pot} from the community pot.")
         self.community_pot = 0
 
-def roll(self):
-"""Roll dice for current player"""
-    dice = {
-        1: u"\u2680",
-        2: u"\u2681",
-        3: u"\u2682",
-        4: u"\u2683",
-        5: u"\u2684",
-        6: u"\u2685",
-    }
-    roll_one = choice(list(dice.keys()))
-    roll_two = choice(list(dice.keys()))
-    print(dice.get(roll_one), "-", end=" ")
-    print(dice.get(roll_two), "-", end=" ")
-    print(roll_one + roll_two)
+    def roll(self):
+        """Roll dice for current player"""
+        dice = {
+            1: u"\u2680",
+            2: u"\u2681",
+            3: u"\u2682",
+            4: u"\u2683",
+            5: u"\u2684",
+            6: u"\u2685",
+        }
+        roll_one = choice(list(dice.keys()))
+        roll_two = choice(list(dice.keys()))
+        print(dice.get(roll_one), "-", end=" ")
+        print(dice.get(roll_two), "-", end=" ")
+        print(roll_one + roll_two)
